@@ -1,24 +1,23 @@
-import axios from 'axios'
-import React, { useEffect, useState } from 'react'
-import './App.css'
-import MovieCard from './MovieCard'
+import axios from "axios";
+import React, { useEffect, useState } from "react";
+import "./App.css";
+import MovieCard from "./MovieCard";
 
-const omdbapi = 'http://www.omdbapi.com/?i=tt3896198&apikey=36ac6ee8'
-
+const omdbapi = process.env.REACT_APP_OMDB_URL;
 
 const App = () => {
-  const [search, setSearch] = useState('')
-  const [movies, setMovies] = useState([])
+  const [search, setSearch] = useState("");
+  const [movies, setMovies] = useState([]);
 
   useEffect(() => {
-    searchMovies('batman')
-  }, [])
+    searchMovies("batman");
+  }, []);
 
   const searchMovies = async (title) => {
-    const req = await axios.get(`${omdbapi}&s=${title}`)
-    setMovies(req.data.Search)
-    setSearch('')
-  }
+    const req = await axios.get(`${omdbapi}&s=${title}`);
+    setMovies(req.data.Search);
+    setSearch("");
+  };
 
   return (
     <>
@@ -32,23 +31,21 @@ const App = () => {
               setSearch(e.target.value);
             }}
           />
-          <i class="bi bi-search"
-          onClick={()=> searchMovies(search)}
-          ></i>
+          <i class="bi bi-search" onClick={() => searchMovies(search)}></i>
         </div>
       </div>
 
       <div className="container">
         {movies?.length > 0 ? (
           movies.map((movie) => {
-          return <MovieCard movie={movie} key={movie.imdbID} />;
+            return <MovieCard movie={movie} key={movie.imdbID} />;
           })
         ) : (
-        <h1>No Movies</h1>
+          <h1>No Movies</h1>
         )}
       </div>
     </>
   );
-}
+};
 
-export default App
+export default App;
